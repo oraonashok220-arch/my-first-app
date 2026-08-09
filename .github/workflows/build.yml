@@ -1,10 +1,13 @@
-name: Build Android APK
+name: Build APK
 
-on: [push]
+on:
+  push:
+    branches: [ main ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v3
 
@@ -15,14 +18,17 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install --upgrade buildozer cython kivy
+        sudo apt-get update
+        sudo apt-get install -y build-essential ccache git libffi-dev libssl-dev python3-dev zip libltdl-dev libffi-dev libssl-dev
 
     - name: Build with Buildozer
-      run: |
-        yes | buildozer -v android debug
+      uses: ArtemShedov/buildozer-action@v1.2
+      with:
+        command: buildozer android debug
+        subfolder: .
 
     - name: Upload APK
       uses: actions/upload-artifact@v3
       with:
-        name: app-release
+        name: my-app-apk
         path: bin/*.apk
