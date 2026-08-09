@@ -28,7 +28,7 @@ jobs:
         key: buildozer-app-${{ env.date }}-${{ hashFiles('buildozer.spec') }}
 
     - name: Build with Buildozer
-      uses: kivy/buildozer-action@master
+      uses: artemisGalactic/buildozer-action@v1.2.0
       with:
         command: buildozer android debug
         subfolder: .
